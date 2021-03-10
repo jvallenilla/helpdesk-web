@@ -21,4 +21,8 @@ export class TicketService {
   createTicket(data: Ticket){
     return this.http.post<Ticket>(`${environment.serverUrl}tickets/`, data);
   }
+
+  canCreate(){
+    return this.http.get<any>(`${environment.serverUrl}tickets/perms/`);
+  }
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../auth/services/auth.service';
 
 @Component({
   selector: 'app-helpdesk',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HelpdeskComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private authService: AuthService,
+  ) { }
 
   ngOnInit(): void {
+  }
+
+  doLogout(){
+    this.authService.logout();
+    window.location.href = '/';
   }
 
 }

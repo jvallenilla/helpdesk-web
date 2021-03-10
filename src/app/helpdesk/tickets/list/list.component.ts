@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { TicketService } from '../../services/ticket.service';
 import { Ticket, Page } from '../../models';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-list',
@@ -14,6 +15,7 @@ export class ListComponent implements OnInit, OnDestroy {
   @ViewChild('btnViewTemp', { static: true }) btnViewTemp!: TemplateRef<any>;
 
   rows = new Array<Ticket>();
+  canCreate: boolean = false;
   dest: Subject<boolean> = new Subject<boolean>();
   colums: Array<any> = [];
   page: Page = {
@@ -25,7 +27,21 @@ export class ListComponent implements OnInit, OnDestroy {
 
   constructor(
     private ticketService: TicketService,
-  ) { }
+    private route: ActivatedRoute,
+  ) {
+    this.route.parent?.data
+    .pipe(
+      takeUntil(this.dest)
+    )
+    .subscribe(
+      data => {
+        console.log(data)
+        if(data.canCreate.canCreate == 'allowed'){
+          this.canCreate = true;
+        }
+      }
+    )
+  }
 
   ngOnInit(): void {
     this.setPage({ offset: 0 });

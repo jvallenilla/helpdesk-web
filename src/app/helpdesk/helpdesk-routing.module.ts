@@ -4,11 +4,14 @@ import { ListComponent } from './tickets/list/list.component';
 import { SingleComponent } from './tickets/single/single.component';
 import { HelpdeskComponent } from './helpdesk.component';
 import { TicketResolver } from './services/ticket.resolver';
+import { TicketsPermResolver } from './services/tickets-perm.resolver';
+import { NewTicketGuard } from './services/tickets.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: HelpdeskComponent,
+    resolve: { canCreate: TicketsPermResolver },
     children: [
       {
         path: 'list',
@@ -17,7 +20,8 @@ const routes: Routes = [
       {
         path: ':id',
         component: SingleComponent,
-        resolve: { ticket: TicketResolver}
+        resolve: { ticket: TicketResolver},
+        canActivate: [NewTicketGuard,]
       },
       {
         path: '',
@@ -30,6 +34,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
-  providers: [TicketResolver,]
+  providers: [TicketResolver, TicketsPermResolver, NewTicketGuard]
 })
 export class HelpdeskRoutingModule { }
