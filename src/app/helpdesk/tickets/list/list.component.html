@@ -1,0 +1,33 @@
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Tickets</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group mr-2">
+            <a [routerLink]="['../new']" class="btn btn-sm btn-outline-info" >Nuevo</a>
+        </div>
+    </div>
+</div>
+<div>
+    <ngx-datatable
+        class="bootstrap"
+        columnMode="force"
+        [rows]="rows"
+        [columns]="colums"
+        [headerHeight]="50"
+        [footerHeight]="50"
+        rowHeight="auto"
+        [externalPaging]="true"
+        (page)="setPage($event)"
+        [externalSorting]="true"
+        (sort)="doSort($event)"
+        [count]="page.totalElements"
+        [offset]="page.pageNumber"
+        [limit]="page.size"
+    >
+    </ngx-datatable>
+    <ng-template #descTemp let-row="row" let-value="value">
+        {{value | slice:0:80}}
+    </ng-template>
+    <ng-template #btnViewTemp let-row="row" let-value="value">
+        <a class="btn btn-info" [routerLink]="['../', value]">Ver</a>
+    </ng-template>
+</div>

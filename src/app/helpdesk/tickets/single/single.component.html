@@ -1,0 +1,41 @@
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2" *ngIf="newTicket">Nuevo ticket</h1>
+    <h1 class="h2" *ngIf="!newTicket">Ticket # {{ticketId}}</h1>
+</div>
+<div>
+    <form [formGroup]="ticketForm" (ngSubmit)="createTicket()">
+        <div class="form-group">
+            <label>Título</label>
+            <input 
+                type="text"
+                formControlName="title"
+                name="title"
+                class="form-control"
+                placeholder="Título del Ticket"
+                [ngClass] = "{'is-invalid': ticketForm.controls['title'].invalid && (ticketForm.controls['title'].dirty || ticketForm.controls['title'].touched)}"
+                [readonly]="!newTicket"
+            >
+            <div class="invalid-feedback">
+                Titulo requerido
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Descripción</label>
+            <textarea
+                formControlName="description"
+                name="description"
+                class="form-control"
+                placeholder="Ingrese descripción de su problema"
+                rows="10"
+                [ngClass] = "{'is-invalid': ticketForm.controls['description'].invalid && (ticketForm.controls['description'].dirty || ticketForm.controls['description'].touched)}"
+                [readonly]="!newTicket"
+            ></textarea>
+            <div class="invalid-feedback">
+                Descripción requerida
+            </div>
+        </div>
+        <div>
+            <button *ngIf="newTicket" class="btn btn-info" type="submit" [disabled]="!ticketForm.valid">Enviar</button>
+        </div>
+    </form>
+</div>
